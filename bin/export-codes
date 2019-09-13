@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const fetch = require('node-fetch');
+const fs = require('fs');
+const mkdirp = require('mkdirp');
+const models = require('../models');
+const path = require('path');
+const readline = require('readline');
+const XLSX = require('xlsx');
+
+async function exportCodes() {
+  const workbook = XLSX.utils.book_new();
+
+  let [rows] = await models.sequelize.query("SELECT DISTINCT(status) FROM recommendation_assignment_responses ORDER BY status");
+  let worksheet = XLSX.utils.json_to_sheet(rows);
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Status");
+
+  [rows] = await models.sequelize.query("SELECT DISTINCT(assignee) FROM recommendation_assignments ORDER BY assignee");
+  worksheet = XLSX.utils.json_to_sheet(rows);
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Assignee");
+
+  [rows] = await models.sequelize.query("SELECT code, reports.year, reports.title FROM recommendations JOIN reports ON reports.id=recommendations.report_id ORDER BY code");
+  worksheet = XLSX.utils.json_to_sheet(rows);
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Recommendation Code");
+
+  XLSX.writeFile(workbook, 'export.xlsx');
+}
+
+exportCodes()
+  .catch(function(error) {
+    console.log(error);
+    process.exit(1);
+  })
+  .then(function() {
+    process.exit();
+  });
