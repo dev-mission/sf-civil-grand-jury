@@ -1,6 +1,6 @@
-# Full-Stack Starter
+# SF Civil Grand Jury App
 
-This repository contains a "starter" project for web application development in JavaScript.
+This repository contains the Code for San Francisco app for the San Francisco Civil Grand Jury project.
 
 ## Getting Started
 
@@ -8,27 +8,11 @@ This repository contains a "starter" project for web application development in 
    into the directory.
 
    ```
-   $ git clone git@github.com:dev-mission/full-stack-starter.git
-   $ cd full-stack-starter
+   $ git clone https://github.com/dev-mission/sf-civil-grand-jury.git
+   $ cd sf-civil-grand-jury
    ```
 
-2. After cloning, your "local" repo (in this directory on your computer) will be linked to the "remote"
-   repo (as the "origin"). To track and save your own work on top of this code, rename the remote
-   to something else (in this example, to the name "upstream"):
-
-   ```
-   $ git remote rename origin upstream
-   ```
-
-3. Create your own new git repo for your work, then push up and link your local repo
-   to it as the new "origin" :
-
-   ```
-   $ git remote add origin <your new remote repository URL>
-   $ git push -u origin master
-   ```
-
-4. There are some settings that must be configured to run the web application.
+2. There are some settings that must be configured to run the web application.
    They are set as "environment variables" which are loaded from a file called ```.env```.
    Copy the ```example.env``` file as a starting point:
 
@@ -36,12 +20,12 @@ This repository contains a "starter" project for web application development in 
    $ cp example.env .env
    ```
 
-5. Install Docker Desktop: https://www.docker.com/products/docker-desktop
+3. Install Docker Desktop: https://www.docker.com/products/docker-desktop
 
    1. If you have Windows Home Edition, you will need to install Docker Toolbox instead.
    See the troubleshooting notes below.
 
-6. Open a command-line shell, change into your repo directory, and execute this command:
+4. Open a command-line shell, change into your repo directory, and execute this command:
 
    ```
    $ docker-compose up
@@ -59,7 +43,7 @@ This repository contains a "starter" project for web application development in 
    server_1       | 2:14:26 AM web.1     |  [nodemon] or send SIGHUP to 57 to restart
    ```
 
-7. Open ANOTHER command-line shell, change into your repo directory, then execute
+5. Open ANOTHER command-line shell, change into your repo directory, then execute
    this command to log in to the running server container:
 
    ```
@@ -75,18 +59,24 @@ This repository contains a "starter" project for web application development in 
    # sequelize db:migrate
    ```
 
-8. Now you should be able to open the web app in your browser at: http://localhost:3000/
+   1. Before opening the app, you'll need to import some data into the database. Execute this command to import the seed data file:
+
+   ```
+   bin/import seed.xlsx
+   ```
+
+6. Now you should be able to open the web app in your browser at: http://localhost:3000/
 
    1. If you had to install Docker Toolbox, then replace "localhost" with the IP
    address of the Docker Virtual Machine.
 
-9. To stop the server, press CONTROL-C in the window with the running server.
+7. To stop the server, press CONTROL-C in the window with the running server.
    If it is successful, you will see something like this:
 
    ```
-   Killing full-stack-starter_db_1           ... done
-   Killing full-stack-starter_server_1       ... done
-   Killing full-stack-starter_mailcatcher_1  ... done
+   Killing sfcgj_db_1           ... done
+   Killing sfcgj_server_1       ... done
+   Killing sfcgj_mailcatcher_1  ... done
    ```
 
    If it is not successful, you may see something like this:
@@ -100,12 +90,12 @@ This repository contains a "starter" project for web application development in 
 
    ```
    $ docker-compose stop
-   Stopping full-stack-starter_db_1          ... done
-   Stopping full-stack-starter_server_1      ... done
-   Stopping full-stack-starter_mailcatcher_1 ... done
+   Stopping sfcgj_db_1          ... done
+   Stopping sfcgj_server_1      ... done
+   Stopping sfcgj_mailcatcher_1 ... done
    ```
 
-10. That's it! After all this setup is complete, the only command you need to run to get
+8. That's it! After all this setup is complete, the only command you need to run to get
 started again is the ```docker-compose up``` command.
 
 ## Docker Troubleshooting
