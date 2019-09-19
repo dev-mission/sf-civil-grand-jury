@@ -74,9 +74,9 @@ This repository contains the Code for San Francisco app for the San Francisco Ci
    If it is successful, you will see something like this:
 
    ```
-   Killing full-stack-starter_db_1           ... done
-   Killing full-stack-starter_server_1       ... done
-   Killing full-stack-starter_mailcatcher_1  ... done
+   Killing sfcgj_db_1           ... done
+   Killing sfcgj_server_1       ... done
+   Killing sfcgj_mailcatcher_1  ... done
    ```
 
    If it is not successful, you may see something like this:
@@ -90,9 +90,9 @@ This repository contains the Code for San Francisco app for the San Francisco Ci
 
    ```
    $ docker-compose stop
-   Stopping full-stack-starter_db_1          ... done
-   Stopping full-stack-starter_server_1      ... done
-   Stopping full-stack-starter_mailcatcher_1 ... done
+   Stopping sfcgj_db_1          ... done
+   Stopping sfcgj_server_1      ... done
+   Stopping sfcgj_mailcatcher_1 ... done
    ```
 
 8. That's it! After all this setup is complete, the only command you need to run to get
