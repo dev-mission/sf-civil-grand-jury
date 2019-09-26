@@ -57,6 +57,7 @@ This repository contains the Code for San Francisco app for the San Francisco Ci
    ```
    # sequelize db:create
    # sequelize db:migrate
+   # sequelize db:seed:all
    ```
 
    1. Before opening the app, you'll need to import some data into the database. Execute this command to import the seed data file:
