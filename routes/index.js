@@ -28,6 +28,10 @@ router.get('/', async function(req, res, next) {
             ]
           }
         ]
+      },
+      {
+        model: models.Status,
+        as: 'normalizedStatus'
       }
     ],
     order: [

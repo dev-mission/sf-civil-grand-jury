@@ -1,0 +1,50 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const workbook = require('./helpers/workbook');
+const models = require('../models');
+const XLSX = require('xlsx');
+
+if (process.argv.length < 3) {
+  console.log('Usage: bin/normalize-status path/to/file.xlsx');
+  process.exit(1);
+}
+
+workbook.getSheet(process.argv[2], function(sheet) {
+  normalizeStatus(sheet).then(function() {
+    console.log('Done!');
+    process.exit(0);
+  }).catch(function(error) {
+    console.log(error);
+    process.exit(1);
+  });
+});
+
+async function normalizeStatus(sheet) {
+  //// fetch all the status codes, create a mapping dictionary
+  //// from status value to record id
+  const statusMapping = {};
+  const statuses = await models.Status.findAll();
+  for (let status of statuses) {
+    statusMapping[status.value] = status.id;
+  }
+
+  //// process each row to create a mapping dictionary to status id
+  const rows = XLSX.utils.sheet_to_json(sheet, {header: 1});
+  const mapping = {};
+  let i = 0;
+  for (let row of rows) {
+    mapping[row[0]] = statusMapping[row[1]];
+  }
+
+  //// now process each unmapped response to apply normalized mapping
+  const responses = await models.RecommendationAssignmentResponse.findAll({where: {statusId: null}});
+  for (let response of responses) {
+    let status = response.status;
+    //// handle CR/LF differences in import/export of sheets, originally has two carriage returns?!
+    status = status.replace(/\r/g, "\r\r");
+    console.log(`[${response.id}] Mapping "${status}" to Status ID: ${mapping[status]}`);
+    await response.update({statusId: mapping[status]});
+  }
+}

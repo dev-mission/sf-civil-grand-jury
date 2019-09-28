@@ -63,7 +63,7 @@ This repository contains the Code for San Francisco app for the San Francisco Ci
    1. Before opening the app, you'll need to import some data into the database. Execute this command to import the seed data file:
 
    ```
-   bin/import seed.xlsx
+   bin/import xlsx/seed.xlsx
    ```
 
 6. Now you should be able to open the web app in your browser at: http://localhost:3000/
@@ -119,7 +119,7 @@ started again is the ```docker-compose up``` command.
 
 ## License
 
-Full-Stack Starter
+SF Civil Grand Jury
 Copyright (C) 2019 <dev/Mission>
 
 This program is free software: you can redistribute it and/or modify

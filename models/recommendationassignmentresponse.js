@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   RecommendationAssignmentResponse.associate = function(models) {
     RecommendationAssignmentResponse.belongsTo(models.RecommendationAssignment, {as: 'assignment', foreignKey: {fieldName: 'assignmentId', field: 'recommendation_assignment_id'}});
-    RecommendationAssignmentResponse.belongsTo(models.Status, {as: 'normalized_status', foreignKey: {fieldName: 'statusId', field: 'status_id'}});
+    RecommendationAssignmentResponse.belongsTo(models.Status, {as: 'normalizedStatus', foreignKey: {fieldName: 'statusId', field: 'status_id'}});
   };
   return RecommendationAssignmentResponse;
 };

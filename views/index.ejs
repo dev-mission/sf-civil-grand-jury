@@ -24,7 +24,7 @@
       <td><%= response.assignment.recommendation.content %></td>
       <td><%= response.assignment.assignee %></td>
       <td><%= response.year %></td>
-      <td><%= response.status %></td>
+      <td><% if (response.normalizedStatus) { %><%= response.normalizedStatus.value %><% } else { %><%= response.status %><% } %></td>
       <td><%= response.content %></td>
     </tr>
     <% } %>
