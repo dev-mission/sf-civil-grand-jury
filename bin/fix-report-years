@@ -1,0 +1,64 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const models = require('../models');
+
+fixReportYears().then(function() {
+  console.log('Done!');
+  process.exit(0);
+}).catch(function(error) {
+  console.error(error);
+  process.exit(1);
+});
+
+async function fixReportYears() {
+  //// get the canonical report we're working to consolidate to
+  const report = await models.Report.findOne({
+    where: {
+      year: '2013-14',
+      title: 'Ethics in the City: Promise, Practice or Pretense'
+    }
+  });
+  //// search for the incorrectly labeled reports
+  for (let incorrectYear of ['2013-21', '2013-25']) {
+    let incorrectReport = await models.Report.findOne({
+      where: {
+        year: incorrectYear,
+        title: 'Ethics in the City: Promise, Practice or Pretense'
+      }
+    });
+    //// remap any recommendations tied to the incorrect report
+    let recommendations = await models.Recommendation.findAll({
+      where: {
+        reportId: incorrectReport.id
+      }
+    });
+    for (let recommendation of recommendations) {
+      //// search if the recommendation already exists mapped to the correct report
+      let correctRecommendation = await models.Recommendation.findOne({
+        where: {
+          reportId: report.id,
+          code: recommendation.code
+        }
+      });
+      if (correctRecommendation) {
+        //// update assignments to correct recommendation
+        await models.RecommendationAssignment.update({
+          recommendationId: correctRecommendation.id
+        }, {
+          where: {
+            recommendationId: recommendation.id
+          }
+        });
+        //// delete the incorrect recommendation
+        await recommendation.destroy();
+      } else {
+        //// not found, simply update recommendation to correct report
+        await recommendation.update({reportId: reportId});
+      }
+    }
+    //// finally, delete incorrect report
+    await incorrectReport.destroy();
+  }
+}
