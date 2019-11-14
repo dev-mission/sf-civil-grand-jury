@@ -11,6 +11,9 @@
     "build:clean": "del-cli 'client/**/*.js' 'client/**/*.js.map' 'client/**/*.ngsummary.json' 'client/**/*.metadata.json' 'client/**/**/*.ngfactory.ts' 'client/**/*.ngstyle.ts' 'client/**/*.shim.ts'",
     "start": "nodemon -V --ignore ./client ./bin/www"
   },
+  "engines": {
+    "node": "10.x"
+  },
   "dependencies": {
     "@angular/animations": "~7.0",
     "@angular/common": "~7.0",
