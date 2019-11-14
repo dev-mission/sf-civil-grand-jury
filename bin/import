@@ -87,23 +87,31 @@ async function importRows(sheet) {
     let title = row[1];
     if (!year || !title) {
       console.error(`[${i+2}] Unable to extract CGJ Year and Report Title`);
-      process.exit(1);
+      continue;
     }
     year = year.trim();
     title = title.trim();
     const [report] = await models.Report.findOrCreate({where: { year, title }});
 
     //// find or create recommendation
-    const match = row[2].match(/([^ ]+) (.+)/);
-    if (!match) {
-      console.error(`[${i+2}] Unable to extract Recommendation Code and Text`);
-      process.exit(1);
+    let code, content, col;
+    if (header[2] == 'Rec Number') {
+      code = row[2].trim();
+      content = row[3].trim();
+      col = 4;
+    } else {
+      const match = row[2].match(/([^ ]+) (.+)/);
+      if (!match) {
+        console.error(`[${i+2}] Unable to extract Recommendation Code and Text`);
+        process.exit(1);
+      }
+      code = match[1];
+      if (code.endsWith('.')) {
+        code = code.substring(0, code.length - 1);
+      }
+      content = match[2].trim();
+      col = 3;
     }
-    let code = match[1];
-    if (code.endsWith('.')) {
-      code = code.substring(0, code.length - 1);
-    }
-    const content = match[2].trim();
     const [recommendation] = await models.Recommendation.findOrCreate({
       where: {
         reportId: report.id,
@@ -113,7 +121,7 @@ async function importRows(sheet) {
     await recommendation.update({content});
 
     //// find or create assignment
-    const assignee = row[3].trim();
+    const assignee = row[col++].trim();
     const [assignment] = await models.RecommendationAssignment.findOrCreate({
       where: {
         recommendationId: recommendation.id,
@@ -122,12 +130,15 @@ async function importRows(sheet) {
     });
 
     //// find or create response(s)
-    for (let col = 4; col < row.length; col += 2) {
+    for (; col < row.length; col += 2) {
       //// extract reponse year
       const match = header[col].match(/(\d{4}) Response/);
       if (!match) {
         console.error(`[${i+2}] Unable to extract Response Year`);
         process.exit(1);
+      }
+      if (col + 1 >= row.length) {
+        break;
       }
       const year = match[1];
       const status = (row[col] ? row[col] : '').trim();
