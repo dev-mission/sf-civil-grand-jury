@@ -99,6 +99,125 @@ This repository contains the Code for San Francisco app for the San Francisco Ci
 8. That's it! After all this setup is complete, the only command you need to run to get
 started again is the ```docker-compose up``` command.
 
+## Shell Command Quick Reference
+
+ * Every directory and file on your computer has a *path* that describes its location in storage. Special path symbols include:
+
+   * The current *working directory* you are in: `.`
+   * The *parent* of the current working directory: `..`
+   * Your *home* directory: `~`
+   * The *root* directory: `/` (Mac, Linux) or `\` (Windows)
+     * The same symbol is used as a *separator* when specifying multiple directories in a path
+     * If the path *starts* with the separator, it means the path starts at the *root*
+       * For example: `/Users/myusername/Documents`
+       * This is called an *absolute* path
+     * If the path *does not start* with the separator, it means the path starts at the current *working directory*
+       * For example, if the current *working directory* is: `/Users`  
+         then the same path as the previous example is: `myusername/Documents`
+       * This is called a *relative* path
+     * A path can also start with any of the above special path symbols
+       * For example, on Mac the same path as the previous example is: `~/Documents`
+
+ * To *print the working directory* (i.e. to see the full path of the directory you are currently in):
+
+   ```
+   $ pwd
+   ```
+
+ * To *list* the files in the working directory:
+
+   ```
+   $ ls -l
+   ```
+
+ * To *change* the working directory:
+
+   ```
+   $ cd path
+   ```
+
+ * To *make* a new directory inside the working directory:
+
+   ```
+   $ mkdir newpath
+   ```
+
+ * To create a new *empty file* inside the working directory:
+
+   ```
+   $ touch filename.ext
+   ```
+
+## git Command Quick Reference
+
+ * To check the *status* of the files in your local repo (i.e. what's been added or changed):
+
+   ```
+   $ git status
+   ```
+
+ * To *add all* the changed files to the next commit:
+
+   ```
+   $ git add .
+   ```
+
+   To *add specific file(s)* to the next commit:
+
+   ```
+   $ git add path/to/file1.ext path/to/file2.ext path/with/wildcard/*
+   ```
+
+ * To *commit* the added files with a message:
+
+   ```
+   $ git commit -m "My description of what's changed"
+   ```
+
+ * To *push* the commit to the remote repo:
+
+   ```
+   $ git push
+   ```
+
+ * To *pull* any new commits from the remote repo:
+
+   ```
+   $ git pull
+   ```
+
+## Docker Command Quick Reference
+
+ * To start all the containers:
+
+   ```
+   $ docker-compose up
+   ```
+
+ * To log in to the running server container:
+
+   ```
+   $ docker-compose exec server bash -l
+   ```
+
+ * To stop all the containers, in case things didn't shutdown properly with CTRL-C:
+
+   ```
+   $ docker-compose stop
+   ```
+
+ * To run the server container without starting everything using the up command:
+
+   ```
+   $ docker-compose run --rm server bash -l
+   ```
+
+ * To re-build the server container:
+
+   ```
+   $ docker-compose build server
+   ```
+
 ## Docker Troubleshooting
 
 * On some PC laptops, a hardware CPU feature called virtualization is disabled by default, which is required by Docker. To enable it, reboot your computer into its BIOS interface (typically by pressing a key like DELETE or F1 during the boot process), and look for an option to enable it. It may be called something like *Intel Virtualization Technology*, *Intel VT*, *AMD-V*, or some similar variation.
@@ -120,7 +239,7 @@ started again is the ```docker-compose up``` command.
 ## License
 
 SF Civil Grand Jury
-Copyright (C) 2019 <dev/Mission>
+Copyright (C) 2020 Code for San Francisco
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as

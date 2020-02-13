@@ -9,7 +9,7 @@
     "build:dev": "webpack-dev-server",
     "build:prod": "npm run build:clean && ngc && npm run webpack-prod && npm run build:clean",
     "build:clean": "del-cli 'client/**/*.js' 'client/**/*.js.map' 'client/**/*.ngsummary.json' 'client/**/*.metadata.json' 'client/**/**/*.ngfactory.ts' 'client/**/*.ngstyle.ts' 'client/**/*.shim.ts'",
-    "start": "nodemon -V --ignore ./client ./bin/www"
+    "start": "nodemon -L -V --ignore ./client ./bin/www"
   },
   "engines": {
     "node": "10.x"
@@ -73,7 +73,7 @@
     "zone.js": "~0.8"
   },
   "devDependencies": {
-    "@ngtools/webpack": "^7.3.9",
+    "@rush/webpack": "^7.3.6",
     "@types/core-js": "~2.5",
     "@types/node": "~10.12",
     "angular-router-loader": "~0.8",
