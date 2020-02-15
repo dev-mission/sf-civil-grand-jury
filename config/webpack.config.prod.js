@@ -53,6 +53,7 @@ module.exports = webpackMerge(commonConfig, {
       tsConfigPath: helpers.root('tsconfig.json'),
       entryModules: [
         helpers.root('client', 'admin', 'app.module#AdminAppModule'),
+        helpers.root('client', 'home', 'home.module#HomeModule'),
       ]
     })
   ]

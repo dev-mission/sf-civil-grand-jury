@@ -10,7 +10,8 @@ const isDev                = process.env.NODE_ENV !== 'production';
 
 module.exports = {
   entry: {
-    admin: './client/admin.ts'
+    admin: './client/admin.ts',
+    home: './client/home.ts',
   },
 
   resolve: {

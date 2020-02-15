@@ -1,37 +1,17 @@
 <%- contentFor('title') %>Home
+<%- contentFor('head') %>
+<script type="text/javascript">
+window.env = {};
+window.env.ASSET_HOST = '<%= process.env.ASSET_HOST %>';
+</script>
+<base href="/">
 <%- contentFor('body') %>
 <div class="container-fluid">
   <h1>SF Civil Grand Jury</h1>
-  <div class="row">
-    <div class="col-md-2">
-      <form method="GET" action="/">
-        <div class="form-group">
-          <select class="form-control" name="year">
-            <% for (let report of reports) { %>
-            <option<%= year == report.year ? ' selected' : '' %>><%= report.year %></option>
-            <% } %>
-          </select>
-        </div>
-      </form>
-    </div>
-  </div>
-  <table class="table">
-    <% for (let response of responses) { %>
-    <tr>
-      <td><%= response.assignment.recommendation.report.year %></td>
-      <td><%= response.assignment.recommendation.report.title %></td>
-      <td><%= response.assignment.recommendation.code %></td>
-      <td><%= response.assignment.recommendation.content %></td>
-      <td><%= response.assignment.assignee %></td>
-      <td><%= response.year %></td>
-      <td><% if (response.normalizedStatus) { %><%= response.normalizedStatus.value %><% } else { %><%= response.status %><% } %></td>
-      <td><%= response.content %></td>
-    </tr>
+  <app-home>Loading...</app-home>
+  <% for (let entry of ['home']) { %>
+    <% for (let chunk of webpackStats.chunks[entry]) { %>
+      <script type="application/javascript" src="<%= chunk.publicPath %>"></script>
     <% } %>
-  </table>
+  <% } %>
 </div>
-<script type="text/javascript">
-  $('form select').on('change', function() {
-    $('form').submit();
-  });
-</script>

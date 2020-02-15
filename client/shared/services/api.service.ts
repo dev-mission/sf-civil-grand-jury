@@ -70,6 +70,24 @@ export class ApiService {
     }
   }
 
+  reports = {
+    years: (params?: HttpParams): Observable<any> => {
+      return this.get('/api/reports/years', params);
+    },
+  };
+
+  responses = {
+    index: (params?: HttpParams): Observable<any> => {
+      return this.get('/api/responses/', params);
+    },
+  };
+
+  statuses = {
+    index: (params?: HttpParams): Observable<any> => {
+      return this.get('/api/statuses/', params);
+    },
+  };
+
   users = {
     me: (params?: HttpParams): Observable<any> => {
       return this.get('/api/users/me/', params);

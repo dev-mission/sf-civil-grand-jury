@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const models = require('../models');
+
+async function touchResponses() {
+  //// now process each unmapped response to apply normalized mapping
+  const responses = await models.RecommendationAssignmentResponse.findAll();
+  for (let response of responses) {
+    await response.changed('updatedAt', true);
+    await response.save();
+  }
+}
+
+touchResponses().then(function() {
+  console.log('Done!');
+  process.exit(0);
+}).catch(function(error) {
+  console.log(error);
+  process.exit(1);
+});

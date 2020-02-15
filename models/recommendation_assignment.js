@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   RecommendationAssignment.associate = function(models) {
     RecommendationAssignment.belongsTo(models.Recommendation, {as: 'recommendation'});
+    RecommendationAssignment.belongsTo(models.RecommendationAssignmentResponse, {as: 'latestResponse', foreignKey: {fieldName: 'latestResponseId', field: 'latest_recommendation_assignment_response_id'}});
     RecommendationAssignment.hasMany(models.RecommendationAssignmentResponse, {as: 'responses'});
   };
   return RecommendationAssignment;

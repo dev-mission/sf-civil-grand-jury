@@ -1,0 +1,44 @@
+<form class="form-inline justify-content-between mb-2" method="GET" action="/">
+  <div class="form-group">
+    <label class="mr-1" for="year">Report Year:</label>
+    <select [(ngModel)]="selectedYear" (change)="refresh()" class="form-control mr-3" id="year" name="year">
+      <optgroup label="Filters">
+        <option value="">All</option>
+      </optgroup>
+      <optgroup label="Report Years">
+        <option *ngFor="let year of years" [value]="year">{{year}}</option>
+      </optgroup>
+    </select>
+    <label class="mr-1" for="status">Latest Response Status:</label>
+    <select [(ngModel)]="selectedStatus" (change)="refresh()" class="form-control mr-3" id="status" name="status">
+      <optgroup label="Filters">
+        <option value="">All</option>
+        <option value="-1">Unresolved</option>
+      </optgroup>
+      <optgroup label="Statuses">
+        <option *ngFor="let status of statuses" [value]="status.id">{{status.value}}</option>
+      </optgroup>
+    </select>
+  </div>
+  <div class="form-group">
+    <label class="mr-1" for="search">Search:</label>
+    <input #search="ngModel" [(ngModel)]="searchQuery" type="text" class="form-control" id="search" name="search">
+  </div>
+</form>
+<table *ngIf="records" class="table table-striped">
+  <tr *ngFor="let record of records; let i = index; trackBy: trackById">
+    <td *ngIf="i > 0 && records[i-1].assignment.id == record.assignment.id" colspan="5"></td>
+    <td *ngIf="i > 0 && records[i-1].assignment.id != record.assignment.id && records[i-1].assignment.recommendation.id == record.assignment.recommendation.id" colspan="4"></td>
+    <td *ngIf="i > 0 && records[i-1].assignment.id != record.assignment.id && records[i-1].assignment.recommendation.id != record.assignment.recommendation.id && records[i-1].assignment.recommendation.report.id == record.assignment.recommendation.report.id" colspan="2"></td>
+    <td *ngIf="i == 0 || (records[i-1].assignment.id != record.assignment.id && records[i-1].assignment.recommendation.id != record.assignment.recommendation.id && records[i-1].assignment.recommendation.report.id != record.assignment.recommendation.report.id)" [attr.data-report-id]="record.assignment.recommendation.report.id">{{record.assignment.recommendation.report.year}}</td>
+    <td *ngIf="i == 0 || (records[i-1].assignment.id != record.assignment.id && records[i-1].assignment.recommendation.id != record.assignment.recommendation.id && records[i-1].assignment.recommendation.report.id != record.assignment.recommendation.report.id)" [innerHTML]="record.assignment.recommendation.report.title|highlight:searchQuery"></td>
+    <td *ngIf="i == 0 || (records[i-1].assignment.id != record.assignment.id && records[i-1].assignment.recommendation.id != record.assignment.recommendation.id)" [attr.data-recommendation-id]="record.assignment.recommendation.id">{{record.assignment.recommendation.code}}</td>
+    <td *ngIf="i == 0 || (records[i-1].assignment.id != record.assignment.id && records[i-1].assignment.recommendation.id != record.assignment.recommendation.id)" [innerHTML]="record.assignment.recommendation.content|highlight:searchQuery"></td>
+    <td *ngIf="i == 0 || records[i-1].assignment.id != record.assignment.id" [attr.data-assignment-id]="record.assignment.id" [innerHTML]="record.assignment.assignee|highlight:searchQuery"></td>
+    <td [attr.data-response-id]="record.id">{{record.year}}</td>
+    <td>{{record.status}}</td>
+    <td [innerHTML]="record.content|highlight:searchQuery"></td>
+  </tr>
+</table>
+<a *ngIf="paginationLink" [app-shared-autoload]="paginationLink" (onLoadMore)="onLoadMore($event)">Show more...</a>
+<app-shared-loader *ngIf="isLoading"></app-shared-loader>

@@ -239,6 +239,7 @@ started again is the ```docker-compose up``` command.
 ## License
 
 SF Civil Grand Jury
+
 Copyright (C) 2020 Code for San Francisco
 
 This program is free software: you can redistribute it and/or modify
