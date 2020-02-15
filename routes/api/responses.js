@@ -60,9 +60,7 @@ router.get('/', async function(req, res, next) {
   if (req.query.status) {
     switch (req.query.status) {
     case '-1':
-      query.where['$assignment.latestResponse.status_id$'] = {
-        [models.Sequelize.Op.notIn]: [STATUS_IMPLEMENTED.id, STATUS_NOT_IMPLEMENTED.id]
-      };
+      query.where['$assignment.latestResponse.status_id$'] = {[models.Sequelize.Op.notIn]: [STATUS_IMPLEMENTED.id, STATUS_NOT_IMPLEMENTED.id]};
       break;
     default:
       query.where['$assignment.latestResponse.status_id$'] = req.query.status;

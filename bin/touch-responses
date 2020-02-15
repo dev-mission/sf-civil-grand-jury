@@ -8,9 +8,11 @@ async function touchResponses() {
   //// now process each unmapped response to apply normalized mapping
   const responses = await models.RecommendationAssignmentResponse.findAll();
   for (let response of responses) {
+    process.stdout.write('.');
     await response.changed('updatedAt', true);
     await response.save();
   }
+  console.log('');
 }
 
 touchResponses().then(function() {

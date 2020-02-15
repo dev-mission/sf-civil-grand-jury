@@ -29,16 +29,15 @@ module.exports = (sequelize, DataTypes) => {
         //// if no latest response on assignment, just assign immediately
         await assignment.update({latestResponseId: response.id});
       } else if (latestResponse.id != response.id) {
-        //// if different latest response exists, first check if year is newer
-        if (parseInt(response.year) > parseInt(latestResponse.year)) {
-          const status = await response.getNormalizedStatus();
-          if (status != null && status.id != STATUS_NO_RESPONSE.id) {
+        //// if different latest response exists, first check if year is newer, or latest is no response
+        if (latestResponse.statusId == STATUS_NO_RESPONSE.id || parseInt(response.year) > parseInt(latestResponse.year)) {
+          if (response.statusId != STATUS_NO_RESPONSE.id) {
             //// don't overwrite with a null/NO RESPONSE status
             await assignment.update({latestResponseId: response.id});
           }
         }
       }
-    })
+    });
   };
   sequelizePaginate.paginate(RecommendationAssignmentResponse)
   return RecommendationAssignmentResponse;

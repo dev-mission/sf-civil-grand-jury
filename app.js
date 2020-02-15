@@ -18,7 +18,6 @@ var indexRouter = require('./routes/index');
 var loginRouter = require('./routes/login');
 var adminRouter = require('./routes/admin');
 var apiRouter = require('./routes/api');
-var reportsRouter = require('./routes/reports');
 
 var app = express();
 
@@ -63,7 +62,6 @@ app.use(function(req, res, next) {
 });
 
 app.use('/login', loginRouter);
-app.use('/reports', reportsRouter);
 app.use('/admin', interceptors.requireLogin);
 app.use('/admin', adminRouter);
 app.use('/api', apiRouter);

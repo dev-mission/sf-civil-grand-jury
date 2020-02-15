@@ -47,5 +47,28 @@ describe('RecommendationAssignmentResponse', function() {
       //// the latest response on the assignment will still be the last response
       assert.equal(assignment.latestResponseId, laterResponse.id);
     });
+
+    it('should update its parent RecommendationAssignment with an older response if the latest is none', async function() {
+      const report = await models.Report.create({year: '2019-2020', title: 'Test Report'});
+      const recommendation = await models.Recommendation.create({reportId: report.id, code: 'R1', content: 'Test Recommendation'});
+      const assignment = await models.RecommendationAssignment.create({recommendationId: recommendation.id, assignee: 'Test Assignee'});
+
+      //// to start, the latest response should be null for a new assignment
+      assert.equal(assignment.latestResponseId, null);
+
+      //// create a "no response" response
+      const STATUS_NO_RESPONSE = await models.Status.findOne({where: {value: models.Status.VALUE_NO_RESPONSE}});
+      const response = await models.RecommendationAssignmentResponse.create({assignmentId: assignment.id, year: '2019', status: '**', content: 'Test Response', statusId: STATUS_NO_RESPONSE.id});
+      await assignment.reload()
+      //// the latest response on the assignment will be this first new response
+      assert.equal(assignment.latestResponseId, response.id);
+
+      //// create an earlier response
+      const STATUS_FUTHER_ANALYSIS = await models.Status.findOne({where: {value: models.Status.VALUE_FURTHER_ANALYSIS}});
+      const earlierResponse = await models.RecommendationAssignmentResponse.create({assignmentId: assignment.id, year: '2018', status: 'Needs analysis', content: 'Test Response 2', statusId: STATUS_FUTHER_ANALYSIS.id});
+      await assignment.reload()
+      //// the earlier response will override a "no response" later response
+      assert.equal(assignment.latestResponseId, earlierResponse.id);
+    });
   });
 });

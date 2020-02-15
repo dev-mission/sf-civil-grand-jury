@@ -14,7 +14,6 @@ export class HighlightPipe implements PipeTransform {
       let lowerQuery = query.toLowerCase();
       do {
         index = lowerValue.indexOf(lowerQuery, index);
-        console.log(lowerValue, lowerQuery, index);
         if (index >= 0) {
           value = `${value.substring(0, index)}<b>${value.substring(index, index + query.length)}</b>${value.substring(index + query.length)}`;
           lowerValue = value.toLowerCase();
