@@ -48,7 +48,7 @@
     "email-templates": "^5.1.0",
     "express": "~4.16.0",
     "express-ejs-layouts": "^2.5.0",
-    "express-fileupload": "^1.1.4",
+    "express-fileupload": "^1.1.9",
     "fs-extra": "^8.1.0",
     "http-errors": "~1.6.2",
     "i18n": "^0.8.3",
