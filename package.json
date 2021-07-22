@@ -70,7 +70,7 @@
     "sequelize-paginate": "leandrofinger/sequelize-paginate#e74f00ae91139798065a448cef69b2f557b58837",
     "sortablejs": "^1.9.0",
     "uuid": "^3.3.2",
-    "xlsx": "^0.15.1",
+    "xlsx": "^0.17.0",
     "zone.js": "~0.8"
   },
   "devDependencies": {
